@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="intercom.css">
+        <title>Visitor Panel</title>
+    </head>
+    <body>
+        <h1>APT 3604</h1>
+
+        <div id="visitor-container">
+            <img id="character" src="character.gif" alt="Welcome">
+
+            <input type="text" id="visitor-name" placeholder="Enter your name">
+            <button id="submit-name">Submit</button>
+            <h2 id="welcome-text" style="display: none"></h2>
+        </div>
+
+        <script>
+            document.getElementById("submit-name")
+                .addEventListener("click", () => {
+                    const name = document.getElementById(
+                        "visitor-name",
+                    ).value.trim();
+                    if (!name) return;
+
+                    // fake visit count
+                    const visitCount =
+                        Math.floor(Math.random() * 9) + 5;
+
+                    // show visit message
+                    document.getElementById("visitor-name")
+                        .style.display = "none";
+                    document.getElementById("submit-name").style
+                        .display = "none";
+                    const welcomeText = document.getElementById(
+                        "welcome-text",
+                    );
+                    welcomeText.textContent =
+                        `Hi ${name}, this is your ${visitCount}th visit!`;
+                    welcomeText.style.display = "block";
+
+                    setTimeout(fetchVisitorMessage, 2000);
+                });
+
+            async function fetchVisitorMessage() {
+                try {
+                    const response = await fetch(
+                        "/api/get-greeting",
+                    );
+                    const data = await response.json();
+
+                    if (
+                        data.visitorGreeting !==
+                            "Waiting for resident's input..."
+                    ) {
+                        document.getElementById("welcome-text")
+                            .textContent = data.visitorGreeting;
+                    }
+                } catch (error) {
+                    document.getElementById("welcome-text")
+                        .textContent =
+                            "Error: Cannot retrieve message.";
+                }
+            }
+        </script>
+    </body>
+</html>

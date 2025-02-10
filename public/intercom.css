@@ -1,0 +1,97 @@
+body {
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #000000, #00ff00);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    color: #66ff66;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#mood-options img {
+    width: 80px;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.5s ease-in-out;
+}
+
+.mood-image:hover {
+    transform: none !important;
+}
+
+.selected {
+    position: relative;
+    top: -20px;
+    transform: scale(2);
+    transition: transform 0.5s ease-in-out;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.mood-image.hidden {
+    display: none;
+}
+
+#mood-options {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#resident-message-container {
+    position: relative;
+    top: 10px;
+    text-align: center;
+    color: #99ff99;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 20px;
+    z-index: 9;
+}
+
+#visitor-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#character {
+    width: 120px;
+    display: block;
+    margin: 10px auto;
+}
+
+#visitor-name {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    background: black;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    text-align: center;
+}
+
+#submit-name {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #00cc00;
+    color: black;
+    border: 1px solid #00ff00;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+#submit-name:hover {
+    background-color: #00ff00;
+    color: black;
+}

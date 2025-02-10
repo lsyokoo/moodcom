@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="intercom.css">
+        <title>Resident Panel</title>
+    </head>
+    <body>
+        <div id="mood-options">
+            <img
+                src="happy.png"
+                alt="Happy"
+                data-mood="happy"
+                class="mood-image"
+            >
+            <img src="sad.png" alt="Sad" data-mood="sad" class="mood-image">
+            <img
+                src="angry.png"
+                alt="Angry"
+                data-mood="angry"
+                class="mood-image"
+            >
+            <img
+                src="tired.png"
+                alt="Tired"
+                data-mood="tired"
+                class="mood-image"
+            >
+        </div>
+
+        <div id="message-container" style="display: none">
+            <p id="resident-message">Loading...</p>
+        </div>
+
+        <script>
+            const moodImages = document.querySelectorAll(
+                ".mood-image",
+            );
+            const messageContainer = document.getElementById(
+                "message-container",
+            );
+            const residentMessage = document.getElementById(
+                "resident-message",
+            );
+
+            moodImages.forEach((image) => {
+                image.addEventListener("click", async () => {
+                    const mood = image.getAttribute(
+                        "data-mood",
+                    );
+
+                    image.classList.add("selected");
+                    moodImages.forEach((img) => {
+                        if (img !== image) {
+                            img.classList.add("hidden");
+                        }
+                    });
+
+                    try {
+                        const response = await fetch(
+                            `/api/greeting?mood=${mood}`,
+                        );
+                        const text = await response.text();
+
+                        const residentMatch = text.match(
+                            /Resident:\s*(.+)/,
+                        );
+                        const visitorMatch = text.match(
+                            /Visitor:\s*(.+)/,
+                        );
+
+                        const residentGreeting = residentMatch
+                            ? residentMatch[1]
+                            : "No response.";
+                        const visitorGreeting = visitorMatch
+                            ? visitorMatch[1]
+                            : "No response.";
+
+                        // message for resident under emoji
+                        const messageContainer = document
+                            .createElement("div");
+                        messageContainer.id =
+                            "resident-message-container";
+                        messageContainer.innerHTML =
+                            `<h2>${residentGreeting}</h2>`;
+                        document.body.appendChild(
+                            messageContainer,
+                        );
+
+                        // sent visitor greeting to server for visitor.html
+                        await fetch("/api/store-greeting", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+                            },
+                            body: JSON.stringify({
+                                visitorGreeting:
+                                    visitorGreeting,
+                            }),
+                        });
+                    } catch (error) {
+                        console.error(
+                            "Error fetching greeting:",
+                            error,
+                        );
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

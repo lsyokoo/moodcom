@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="intercom.css">
+        <title>Moodcom</title>
+    </head>
+    <body>
+        <div id="landing-container">
+            <img id="character" src="character.gif" alt="Welcome Home">
+            <h1 id="welcome-text">
+                Welcome Home, <span id="username">Siyu</span>!
+            </h1>
+        </div>
+
+        <script>
+            document.getElementById("character")
+                .addEventListener("click", () => {
+                    window.location.href = "resident.html";
+                });
+        </script>
+    </body>
+</html>
